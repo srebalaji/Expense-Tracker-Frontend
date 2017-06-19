@@ -13,7 +13,7 @@ app.Category = Backbone.Model.extend({
 
 app.Categories = Backbone.Collection.extend({
 	model: app.Category,
-	url: "http://localhost:3000/v1/categories"
+	url: "https://simple-expense-tracker-app.herokuapp.com/v1/categories"
 });
 
 app.CategoriesInstance = new app.Categories();
