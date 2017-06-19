@@ -33,5 +33,31 @@
 				<button class="destroy">remove</button>
 			</div>
 		</script>
+
+		<!-- expense -->
+		<script type="text/template" id="expense_template">
+
+			<div class="expenses">
+				<h4 id="expense_title"><%= model.title %></h4>  <button id="edit_expense_details">Edit</button>
+				
+				<h6 id="expense_amount"><%= model.amount %></h6>
+				<input id="expense_edit_title" value="<%= model.title %>">
+				<input id="expense_edit_amount" value="<%= model.amount %>">
+				
+				<ul id="expense_categories">
+					<% _.each(model.categories, function(category){ %>
+					<li><%= category.title %></li>
+					<%});%>
+				</ul>
+
+				<select class="categories_lists" id="expense_categories_update" multiple="true">
+					<% _.each(categories, function(category){ %>
+					<option value='{"id": "<%= category.get("_id")%>","title": "<%= category.get("title")%>"}' <%= present_categories.includes(category.get("_id")) ? 'selected' : ''%> ><%= category.get('title') %></option>
+					<%});%>
+				</select>
+				<button id="update_expense_details">Update</button>
+				<button id="cancel">Cancel Update</button>
+			</div>
+		</script>
 	</body>
 </html>
