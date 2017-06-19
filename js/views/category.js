@@ -14,8 +14,8 @@ app.Category = Backbone.View.extend({
     this.model.on('destroy', this.remove, this);
   },
   events: {
-    'dblclick h4' : 'edit',
-    'keypress .edit' : 'updateOnEnter',
+    'click #category_edit' : 'edit',
+    'click #category_update' : 'update',
     'blur .edit' : 'close',
     'click .destroy': 'destroy'
   },
@@ -27,9 +27,8 @@ app.Category = Backbone.View.extend({
     var value = this.input.val().trim();
     if(value) {
     	var collection = app.CategoriesInstance.get(this.model);
-
     	collection.set({title: value});
-      collection.save({}, {validate: true}, {
+      collection.save( {validate: true}, {
       	url: 'http://localhost:3000/v1/categories/'+this.model.get('_id'),
       	type: 'PUT',
       	success: function() {
@@ -42,10 +41,8 @@ app.Category = Backbone.View.extend({
     }
     this.$el.removeClass('editing');
   },
-  updateOnEnter: function(e){
-    if(e.which == 13){
-      this.close();
-    }
+  update: function(e){
+    this.close();
    },
    destroy: function(){
 	    //this.model.destroy();
