@@ -29,7 +29,7 @@ app.Category = Backbone.View.extend({
     	var collection = app.CategoriesInstance.get(this.model);
     	collection.set({title: value});
       collection.save( {validate: true}, {
-      	url: 'http://localhost:3000/v1/categories/'+this.model.get('_id'),
+      	url: 'https://simple-expense-tracker-app.herokuapp.com/v1/categories/'+this.model.get('_id'),
       	type: 'PUT',
       	success: function() {
       		console.log("success in updating");
@@ -51,7 +51,7 @@ app.Category = Backbone.View.extend({
 	    var collection = app.CategoriesInstance.get(this.model);
 
 	    collection.destroy({}, {
-	    	url: 'http://localhost:3000/v1/categories/'+category_id,
+	    	url: 'https://simple-expense-tracker-app.herokuapp.com/v1/categories/'+category_id,
       	type: 'DELETE',
       	success: function(model) {
       		console.log("success in deleting");

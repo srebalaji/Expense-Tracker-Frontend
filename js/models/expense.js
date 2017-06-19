@@ -19,7 +19,7 @@ app.Expense = Backbone.Model.extend({
 
 app.Expenses = Backbone.Collection.extend({
 	model: app.Expense,
-	url: "http://localhost:3000/v1/expenses"
+	url: "https://simple-expense-tracker-app.herokuapp.com/v1/expenses"
 });
 
 app.ExpensesInstance = new app.Expenses();
