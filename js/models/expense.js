@@ -8,7 +8,7 @@ app.Expense = Backbone.Model.extend({
 		if(!attributes.amount){
 			return "Amount cant be blank";
 		}
-		if(attributes.title.search(/^[a-zA-Z]*$/) === -1){
+		if(attributes.title.search(/^[a-zA-Z\s]*$/) === -1){
 			return "Title should contain only letters";
 		}
 		if(attributes.amount.search(/^[0-9]+$/) === -1){
