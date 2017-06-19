@@ -142,5 +142,10 @@
 		<script src="js/views/expense.js"></script>
 		<script src="js/views/expense_list.js"></script>
 		<script src="js/views/report.js"></script>
+		<script type="text/javascript">
+			var app = app || {};
+			app.router = new app.Router();
+			Backbone.history.start();
+		</script>
 	</body>
 </html>
