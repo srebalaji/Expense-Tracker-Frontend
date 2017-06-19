@@ -11,15 +11,12 @@ app.CategoryList = Backbone.View.extend({
 		
 	},
 	events: {
-		'keypress #add_category': 'create'
+		'click #submit_category': 'create'
 	},
 	error: function(model, error){
 		alert(error);
 	},
 	create: function(e) {
-		if ( e.which !== 13 || !this.input.val().trim() ) { // ENTER_KEY = 13
-			return;
-		}
 		app.CategoriesInstance.create(this.newAttributes(), {validate: true},{
 			success: function(response) {
 				console.log("success added"+response);
