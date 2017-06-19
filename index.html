@@ -3,6 +3,41 @@
 		<title>Expense Tracker</title>
 		<link rel="stylesheet" href="assets/simple-chart.css">
 		<link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css"/>
+		<style type="text/css">
+			#list input.edit,
+			#list #expense_edit_title,
+			#list #expense_edit_amount,
+			#list #update_expense_details,
+			#list #expense_categories_update,
+			 #list #cancel{
+			  display: none; /* Hides input box*/
+			}
+			#list .editing h4 {
+			  display: none; /* Hides label text when .editing*/
+			}
+			#list .editing input.edit {
+			  display: inline; /* Shows input text box when .editing*/
+			}
+			#list .expense_editing #expense_title,
+			#list .expense_editing #expense_amount,
+			#list .expense_editing #edit_expense_details,
+			#list .expense_editing #expense_categories {
+				display: none;
+			}
+			#list .expense_editing #expense_edit_title, 
+			#list .expense_editing #expense_edit_amount,
+			#list .expense_editing #update_expense_details,
+			#list .expense_editing #expense_categories_update,
+			#list .expense_editing #cancel {
+				display: inline;
+			}
+			.show {
+				display:inline;
+			}
+			.hide {
+				display: none;
+			}
+		</style>
 	</head>
 	<body>
 		<div class="chart-container"></div>
