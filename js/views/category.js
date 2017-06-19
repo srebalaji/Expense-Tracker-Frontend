@@ -2,7 +2,7 @@
 var app = app || {};
 
 app.Category = Backbone.View.extend({
-	tagName: 'li',
+	tagName: 'div',
 	template: _.template($('#category_template').html()),
 	render:  function() {
 		this.$el.html(this.template(this.model.toJSON()));

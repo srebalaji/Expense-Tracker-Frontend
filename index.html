@@ -13,7 +13,8 @@
 			 #list #cancel{
 			  display: none; /* Hides input box*/
 			}
-			#list .editing #category_edit {
+			#list .editing #category_edit,
+			#list .editing .destroy {
 			  display: none; /* Hides label text when .editing*/
 			}
 			#list .editing input.edit,
@@ -43,115 +44,164 @@
 		</style>
 	</head>
 	<body>
-		<div class="chart-container"></div>
-		<div id="con">
-		
-			<a href="/#category">Category</a>
-			<a href="/#report">Report</a>
-			<div id="category_page">
-				<div id="category">
+		<!-- nav bar-->
+		<nav class="navbar navbar-default">
+			<div class="container-fluid">
+
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="#">Expense Tracker</a>
 				</div>
-				<input type="text" id="add_category" placeholder="Add category">
-				<button id="submit_category">Add Category</button>
+
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav">
+					<li><a href="">Expenses</a></li>
+						<li class=""><a href="#/category">Categories <span class="sr-only">(current)</span></a></li>
+						<li><a href="#/report">Reports</a></li>
+					</ul>
+				</div>
 			</div>
-			<br><br>
-			<div id="expense_page">
-				<input type="text" id="add_expense_title" placeholder="Add expense title">
-				<input type="text" id="add_expense_amount" placeholder="Add expense amount">
-				<select class="categories_lists" multiple="true">
-					
-				</select>
-				<button id="add_expense">Add expense</button>
+		</nav>
+		<!-- nav bar end-->
+		<div class="container">
+			<div class="chart-container"></div>
+			
+			<div id="con">
+			
+				<!-- <a href="/#category">Category</a>
+				<a href="/#report">Report</a> -->
+
+				<div id="category_page">
+					<div id="category">
+					</div>
+					<input type="text" id="add_category" placeholder="Add category" class="form-control">
+					<button id="submit_category" class="btn btn-primary">Add Category</button>
+				</div>
+				<br><br>
+				<div id="expense_page">
+					<form>
+					<div class="form-group">
+					<input type="text" id="add_expense_title" placeholder="Add expense title"  class="form-control">
+					</div>
+					<div class="form-group">
+					<input type="text" id="add_expense_amount" placeholder="Add expense amount"  class="form-control">
+					</div>
+					<div class="form-group">
+					<select class="categories_lists" multiple="true"  class="form-control">
+					</select>
+					</div>
+					<button id="add_expense" class="btn btn-primary">Add expense</button>
+					</form>
+				</div>
+				<div id="list">
+				</div>
+				</div>
+				
 			</div>
-			<ul id="list"></ul>
+
+			<!-- category -->
+			<script type="text/template" id="category_template">
+				<div class="categories">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4><%= title %></h4>
+							<input class="edit" value="<%= title %>">
+							<button id="category_edit" class="btn btn-primary">Edit</button>
+							<button id="category_update" class="btn btn-primary">Update</button>
+							<button class="destroy btn btn-danger">remove</button>
+						</div>
+					</div>
+				</div>
+			</script>
+
+			<!-- expense -->
+			<script type="text/template" id="expense_template">
+				<div class="expenses">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 id="expense_title"><%= model.title %></h4>
+							<h5 id="expense_amount">₹<%= model.amount %></h5>
+
+
+							
+							<input id="expense_edit_title" value="<%= model.title %>" class="form-control">
+							<input id="expense_edit_amount" value="<%= model.amount %>" class="form-control">
+							<h5 style="font-weight: bold">Categories:</h5>
+							<ul id="expense_categories">
+								<% _.each(model.categories, function(category){ %>
+								<li><%= category.title %></li>
+								<%});%>
+							</ul>
+
+							<button id="edit_expense_details" class="btn btn-primary">Edit</button>
+
+							<select class="categories_lists" id="expense_categories_update" multiple="true">
+								<% _.each(categories, function(category){ %>
+									<option value='{"id": "<%= category.get("_id")%>","title": "<%= category.get("title")%>"}' <%= present_categories.includes(category.get("_id")) ? 'selected' : ''%> ><%= category.get('title') %></option>
+								<%});%>
+							</select>
+							<button id="update_expense_details" class="btn btn-primary">Update</button>
+							<button id="cancel" class="btn btn-warning">Cancel Update</button>
+						</div> 
+					</div>
+				</div>
+			</script>
+
+			<!-- Report -->
+			<script type="text/template" id="report_template">
+				<% $('.chart-container').simpleChart({
+	          title: {
+	              text: 'Daily Stats against categories',
+	              align: 'center'
+	          },
+	          type: 'bar',
+	          layout: {
+	              width: '100%',
+	              height: '250px'
+	          },
+	          item: {
+	              label: labels,
+	              value: values,
+	              outputValue: values,
+	              color: ['#00aeef'],
+	              prefix: '',
+	              suffix: ' expense(s)',
+	              render: {
+	                  margin: 0.2,
+	                  size: 'relative'
+	              }
+	          }
+	        }); %>
+			</script>
+			<script src="node_modules/jquery/dist/jquery.js"></script>
+			<script src="node_modules/underscore/underscore.js"></script>
+			<script src="node_modules/backbone/backbone.js"></script>
+			<script src="assets/simple-chart.js"></script>
+			<script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+			<!-- internal app -->
+			<!-- route -->
+			<script src="js/routes/routes.js"></script>
+			<!-- models-->
+			<script src="js/models/category.js"></script>
+			<script src="js/models/expense.js"></script>
+			<script src="js/models/report.js"></script>
+			<!-- views -->
+			<script src="js/views/category.js"></script>
+			<script src="js/views/category_list.js"></script>
+			<script src="js/views/category_dropdown.js"></script>
+			<script src="js/views/expense.js"></script>
+			<script src="js/views/expense_list.js"></script>
+			<script src="js/views/report.js"></script>
+			<script type="text/javascript">
+				var app = app || {};
+				app.router = new app.Router();
+				Backbone.history.start();
+			</script>
 		</div>
-
-		<!-- category -->
-		<script type="text/template" id="category_template">
-			<div class="categories">
-				<h4><%= title %></h4>
-				<input class="edit" value="<%= title %>">
-				<button id="category_edit">Edit</button>
-				<button id="category_update">Update</button>
-				<button class="destroy">remove</button>
-			</div>
-		</script>
-
-		<!-- expense -->
-		<script type="text/template" id="expense_template">
-
-			<div class="expenses">
-				<h4 id="expense_title"><%= model.title %></h4>  <button id="edit_expense_details">Edit</button>
-				
-				<h6 id="expense_amount"><%= model.amount %></h6>
-				<input id="expense_edit_title" value="<%= model.title %>">
-				<input id="expense_edit_amount" value="<%= model.amount %>">
-				
-				<ul id="expense_categories">
-					<% _.each(model.categories, function(category){ %>
-					<li><%= category.title %></li>
-					<%});%>
-				</ul>
-
-				<select class="categories_lists" id="expense_categories_update" multiple="true">
-					<% _.each(categories, function(category){ %>
-					<option value='{"id": "<%= category.get("_id")%>","title": "<%= category.get("title")%>"}' <%= present_categories.includes(category.get("_id")) ? 'selected' : ''%> ><%= category.get('title') %></option>
-					<%});%>
-				</select>
-				<button id="update_expense_details">Update</button>
-				<button id="cancel">Cancel Update</button>
-			</div>
-		</script>
-
-		<!-- Report -->
-		<script type="text/template" id="report_template">
-			<% $('.chart-container').simpleChart({
-          title: {
-              text: 'Daily Stats against categories',
-              align: 'center'
-          },
-          type: 'bar',
-          layout: {
-              width: '100%',
-              height: '250px'
-          },
-          item: {
-              label: labels,
-              value: values,
-              outputValue: values,
-              color: ['#00aeef'],
-              prefix: '',
-              suffix: ' expense(s)',
-              render: {
-                  margin: 0.2,
-                  size: 'relative'
-              }
-          }
-        }); %>
-		</script>
-		<script src="node_modules/jquery/dist/jquery.js"></script>
-		<script src="node_modules/underscore/underscore.js"></script>
-		<script src="node_modules/backbone/backbone.js"></script>
-		<script src="assets/simple-chart.js"></script>
-		<script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-		<!-- internal app -->
-		<!-- route -->
-		<script src="js/routes/routes.js"></script>
-		<!-- models-->
-		<script src="js/models/category.js"></script>
-		<script src="js/models/expense.js"></script>
-		<script src="js/models/report.js"></script>
-		<!-- views -->
-		<script src="js/views/category.js"></script>
-		<script src="js/views/category_list.js"></script>
-		<script src="js/views/category_dropdown.js"></script>
-		<script src="js/views/expense.js"></script>
-		<script src="js/views/expense_list.js"></script>
-		<script src="js/views/report.js"></script>
-		<script type="text/javascript">
-			var app = app || {};
-			app.router = new app.Router();
-			Backbone.history.start();
-		</script>
 	</body>
 </html>

@@ -2,7 +2,7 @@
 var app = app || {};
 
 app.Expense = Backbone.View.extend({
-	tagName: 'li',
+	tagName: 'div',
 	template: _.template($('#expense_template').html()),
 	render:  function() {
 		let present_categories_in_object = this.model.get('categories') || [];
